@@ -15,10 +15,10 @@
  *
  */
 
-package de.spinscale.elasticsearch.ingest.opennlp;
+package de.spinscale.opensearch.ingest.opennlp;
 
 import opennlp.tools.util.Span;
-import org.elasticsearch.common.util.set.Sets;
+import org.opensearch.common.util.set.Sets;
 
 import java.util.HashSet;
 import java.util.Set;

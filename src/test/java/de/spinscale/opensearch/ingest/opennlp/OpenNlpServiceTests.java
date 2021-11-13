@@ -15,10 +15,10 @@
  *
  */
 
-package de.spinscale.elasticsearch.ingest.opennlp;
+package de.spinscale.opensearch.ingest.opennlp;
 
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.test.ESTestCase;
+import org.opensearch.common.settings.Settings;
+import org.opensearch.test.OpenSearchTestCase;
 
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasItem;
@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.hasSize;
  * Important: You need to run gradle from the command line first
  * to download the models referenced here
  */
-public class OpenNlpServiceTests extends ESTestCase {
+public class OpenNlpServiceTests extends OpenSearchTestCase {
 
     public void testThatModelsCanBeLoaded() {
         Settings settings = Settings.builder()

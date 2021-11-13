@@ -15,19 +15,19 @@
  *
  */
 
-package de.spinscale.elasticsearch.ingest.opennlp;
+package de.spinscale.opensearch.ingest.opennlp;
 
-import org.elasticsearch.action.ingest.SimulateProcessorResult;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.xcontent.ToXContent;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.core.PathUtils;
-import org.elasticsearch.core.Tuple;
-import org.elasticsearch.ingest.IngestDocument;
-import org.elasticsearch.ingest.Processor;
-import org.elasticsearch.ingest.RandomDocumentPicks;
-import org.elasticsearch.test.ESTestCase;
+import org.opensearch.action.ingest.SimulateProcessorResult;
+import org.opensearch.common.settings.Settings;
+import org.opensearch.common.xcontent.ToXContent;
+import org.opensearch.common.xcontent.XContentBuilder;
+import org.opensearch.common.xcontent.XContentFactory;
+import org.opensearch.common.collect.Tuple;
+import org.opensearch.common.io.PathUtils;
+import org.opensearch.ingest.IngestDocument;
+import org.opensearch.ingest.Processor;
+import org.opensearch.ingest.RandomDocumentPicks;
+import org.opensearch.test.OpenSearchTestCase;
 import org.junit.BeforeClass;
 
 import java.nio.file.Path;
@@ -45,7 +45,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
-public class OpenNlpProcessorTests extends ESTestCase {
+public class OpenNlpProcessorTests extends OpenSearchTestCase {
 
     private static OpenNlpService service;
 

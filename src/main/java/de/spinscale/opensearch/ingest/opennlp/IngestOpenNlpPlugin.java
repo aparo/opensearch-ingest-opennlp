@@ -15,13 +15,13 @@
  *
  */
 
-package de.spinscale.elasticsearch.ingest.opennlp;
+package de.spinscale.opensearch.ingest.opennlp;
 
-import org.elasticsearch.common.settings.Setting;
-import org.elasticsearch.common.settings.Setting.Property;
-import org.elasticsearch.ingest.Processor;
-import org.elasticsearch.plugins.IngestPlugin;
-import org.elasticsearch.plugins.Plugin;
+import org.opensearch.common.settings.Setting;
+import org.opensearch.common.settings.Setting.Property;
+import org.opensearch.ingest.Processor;
+import org.opensearch.plugins.IngestPlugin;
+import org.opensearch.plugins.Plugin;
 
 import java.nio.file.Path;
 import java.util.Arrays;

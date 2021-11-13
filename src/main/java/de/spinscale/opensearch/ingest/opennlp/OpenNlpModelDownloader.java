@@ -15,13 +15,13 @@
  *
  */
 
-package de.spinscale.elasticsearch.ingest.opennlp;
+package de.spinscale.opensearch.ingest.opennlp;
 
 import joptsimple.OptionSet;
-import org.elasticsearch.cli.EnvironmentAwareCommand;
-import org.elasticsearch.cli.SuppressForbidden;
-import org.elasticsearch.cli.Terminal;
-import org.elasticsearch.env.Environment;
+import org.opensearch.cli.EnvironmentAwareCommand;
+import org.opensearch.cli.SuppressForbidden;
+import org.opensearch.cli.Terminal;
+import org.opensearch.env.Environment;
 
 import java.io.InputStream;
 import java.net.URL;

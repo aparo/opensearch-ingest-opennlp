@@ -1,6 +1,6 @@
 import de.undercouch.gradle.tasks.download.Download
 
-import org.elasticsearch.gradle.testclusters.StandaloneRestIntegTestTask
+import org.opensearch.gradle.testclusters.StandaloneRestIntegTestTask
 import org.gradle.api.tasks.Input;
 import org.gradle.process.CommandLineArgumentProvider;
 
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 buildscript {
   dependencies {
-    classpath "org.elasticsearch.gradle:build-tools:${elasticsearchVersion}"
+    classpath "org.opensearch.gradle:build-tools:${opensearchVersion}"
   }
 }
 
@@ -27,31 +27,31 @@ repositories {
   mavenCentral()
 }
 
-group = 'de.spinscale.elasticsearch.plugin.ingest'
-version = "${elasticsearchVersion}.1-SNAPSHOT"
+group = 'de.spinscale.opensearch.plugin.ingest'
+version = "${opensearchVersion}"
 
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'elasticsearch.esplugin'
-apply plugin: 'elasticsearch.testclusters'
+apply plugin: 'opensearch.opensearchplugin'
+apply plugin: 'opensearch.testclusters'
 
-esplugin {
+opensearchplugin {
   licenseFile = rootProject.file('LICENSE.txt')
   noticeFile = rootProject.file('NOTICE.txt')
   name = 'ingest-opennlp'
   description = 'Ingest processor that uses OpenNLP for named entity extraction'
-  classname = 'de.spinscale.elasticsearch.ingest.opennlp.IngestOpenNlpPlugin'
+  classname = 'de.spinscale.opensearch.ingest.opennlp.IngestOpenNlpPlugin'
 }
 
-// remove me after alpha-2 release
-configurations {
-  resolveableCompileOnly {
-    exclude(group: 'org.elasticsearch', module: 'elasticsearch-lz4')
-  }
-  implementation {
-    exclude(group: 'org.elasticsearch', module: 'elasticsearch-lz4')
-  }
-}
+// // remove me after alpha-2 release
+// configurations {
+//   resolveableCompileOnly {
+//     exclude(group: 'org.opensearch', module: 'opensearch-lz4')
+//   }
+//   implementation {
+//     exclude(group: 'org.opensearch', module: 'opensearch-lz4')
+//   }
+// }
 
 githubRelease.doFirst {
   if (!System.getProperty('GITHUB_TOKEN', '')) {
@@ -68,8 +68,8 @@ githubRelease.doFirst {
 
   // configuration
   github {
-    owner = 'spinscale'
-    repo = 'elasticsearch-ingest-opennlp'
+    owner = 'aparo'
+    repo = 'opensearch-ingest-opennlp'
     token = System.getProperty('GITHUB_TOKEN')
     tagName = currentVersion
     assets = [ filename ]
@@ -78,9 +78,9 @@ githubRelease.doFirst {
 }
 
 // In this section you declare the dependencies for your production and test code
-// Elasticsearch dependency is included due to the build-tools, test-framework as well
+// OpenSearch dependency is included due to the build-tools, test-framework as well
 dependencies {
-  implementation 'org.apache.opennlp:opennlp-tools:1.9.3'
+  implementation 'org.apache.opennlp:opennlp-tools:1.9.4'
 
   // the yaml tests require a log4j2 dependency, otherwise a dependency is thrown on startup
   runtimeOnly 'org.apache.logging.log4j:log4j-core:2.11.1'
@@ -124,87 +124,87 @@ def downloadIfNotExists(String url, String file) {
   }
 }
 
-// setup yaml rest tests
-testClusters {
-  yamlRestTest
-}
+// // setup yaml rest tests
+// testClusters {
+//   yamlRestTest
+// }
 
-sourceSets {
-  yamlRestTest
-}
+// sourceSets {
+//   yamlRestTest
+// }
 
-configurations {
-  yamlRestTestImplementation.extendsFrom testImplementation
-  yamlRestTestRuntimeOnly.extendsFrom testRuntimeOnly
-  restTestSpecs
-}
+// configurations {
+//   yamlRestTestImplementation.extendsFrom testImplementation
+//   yamlRestTestRuntimeOnly.extendsFrom testRuntimeOnly
+//   restTestSpecs
+// }
 
-tasks.register('copyRestTestSpecs', Copy) {
-  from zipTree(configurations.restTestSpecs.singleFile)
-  into "$buildDir/restResources/restspec"
-}
+// tasks.register('copyRestTestSpecs', Copy) {
+//   from zipTree(configurations.restTestSpecs.singleFile)
+//   into "$buildDir/restResources/restspec"
+// }
 
-TaskProvider<Zip> bundle = project.getTasks().withType(Zip.class).named("bundlePlugin");
+// TaskProvider<Zip> bundle = project.getTasks().withType(Zip.class).named("bundlePlugin");
 
-// Register rest resources with source set
-sourceSets.yamlRestTest.getOutput().dir("$buildDir/restResources/restspec");
+// // Register rest resources with source set
+// sourceSets.yamlRestTest.getOutput().dir("$buildDir/restResources/restspec");
 
-tasks.register('yamlRestTest', StandaloneRestIntegTestTask) { testTask ->
-    testTask.dependsOn(bundle, 'copyRestTestSpecs')
+// tasks.register('yamlRestTest', StandaloneRestIntegTestTask) { testTask ->
+//     testTask.dependsOn(bundle, 'copyRestTestSpecs')
 
-    def cluster = testClusters.yamlRestTest
-    cluster.plugin(bundle.flatMap(AbstractArchiveTask::getArchiveFile))
-    testTask.useCluster(testClusters.yamlRestTest)
+//     def cluster = testClusters.yamlRestTest
+//     cluster.plugin(bundle.flatMap(AbstractArchiveTask::getArchiveFile))
+//     testTask.useCluster(testClusters.yamlRestTest)
 
-    testTask.mustRunAfter(project.getTasks().named("test"))
-    testTask.setTestClassesDirs(sourceSets.yamlRestTest.getOutput().getClassesDirs())
-    testTask.setClasspath(sourceSets.yamlRestTest.getRuntimeClasspath())
+//     testTask.mustRunAfter(project.getTasks().named("test"))
+//     testTask.setTestClassesDirs(sourceSets.yamlRestTest.getOutput().getClassesDirs())
+//     testTask.setClasspath(sourceSets.yamlRestTest.getRuntimeClasspath())
 
 
-    SystemPropertyCommandLineArgumentProvider nonInputProperties = new SystemPropertyCommandLineArgumentProvider()
-    nonInputProperties.systemProperty("tests.rest.cluster", "${-> String.join(",", cluster.getAllHttpSocketURI())}")
-    nonInputProperties.systemProperty("tests.cluster", "${-> String.join(",", cluster.getAllTransportPortURI())}")
-    nonInputProperties.systemProperty("tests.clustername", "${-> cluster.getName()}")
-    testTask.getJvmArgumentProviders().add(nonInputProperties)
-    testTask.systemProperty("tests.rest.load_packaged", Boolean.FALSE.toString())
-}
+//     SystemPropertyCommandLineArgumentProvider nonInputProperties = new SystemPropertyCommandLineArgumentProvider()
+//     nonInputProperties.systemProperty("tests.rest.cluster", "${-> String.join(",", cluster.getAllHttpSocketURI())}")
+//     nonInputProperties.systemProperty("tests.cluster", "${-> String.join(",", cluster.getAllTransportPortURI())}")
+//     nonInputProperties.systemProperty("tests.clustername", "${-> cluster.getName()}")
+//     testTask.getJvmArgumentProviders().add(nonInputProperties)
+//     testTask.systemProperty("tests.rest.load_packaged", Boolean.FALSE.toString())
+// }
 
-// this is a bit of a hack to make sure we run the test tests when releasing...
-check.dependsOn 'yamlRestTest'
+// // this is a bit of a hack to make sure we run the test tests when releasing...
+// check.dependsOn 'yamlRestTest'
 
-dependencies {
-  yamlRestTestImplementation "org.elasticsearch.test:framework:$elasticsearchVersion"
-  restTestSpecs "org.elasticsearch:rest-api-spec:$elasticsearchVersion"
-}
+// dependencies {
+//   yamlRestTestImplementation "org.opensearch.test:framework:$opensearchVersion"
+//   restTestSpecs "org.opensearch:rest-api-spec:$opensearchVersion"
+// }
 
-// This will be available in 7.15 in build tools and not manually declared. 
-public class SystemPropertyCommandLineArgumentProvider implements CommandLineArgumentProvider {
-    private final Map<String, Object> systemProperties = new LinkedHashMap<>();
+// // This will be available in 7.15 in build tools and not manually declared. 
+// public class SystemPropertyCommandLineArgumentProvider implements CommandLineArgumentProvider {
+//     private final Map<String, Object> systemProperties = new LinkedHashMap<>();
 
-    public void systemProperty(String key, Supplier<String> value) {
-        systemProperties.put(key, value);
-    }
+//     public void systemProperty(String key, Supplier<String> value) {
+//         systemProperties.put(key, value);
+//     }
 
-    public void systemProperty(String key, Object value) {
-        systemProperties.put(key, value);
-    }
+//     public void systemProperty(String key, Object value) {
+//         systemProperties.put(key, value);
+//     }
 
-    @Override
-    public Iterable<String> asArguments() {
-        return systemProperties.entrySet()
-            .stream()
-            .map(
-                entry -> "-D"
-                    + entry.getKey()
-                    + "="
-                    + (entry.getValue() instanceof Supplier ? ((Supplier) entry.getValue()).get() : entry.getValue())
-            )
-            .collect(Collectors.toList());
-    }
+//     @Override
+//     public Iterable<String> asArguments() {
+//         return systemProperties.entrySet()
+//             .stream()
+//             .map(
+//                 entry -> "-D"
+//                     + entry.getKey()
+//                     + "="
+//                     + (entry.getValue() instanceof Supplier ? ((Supplier) entry.getValue()).get() : entry.getValue())
+//             )
+//             .collect(Collectors.toList());
+//     }
 
-    // Track system property keys as an input so our build cache key will change if we add properties but values are still ignored
-    @Input
-    public Iterable<String> getPropertyNames() {
-        return systemProperties.keySet();
-    }
-}
+//     // Track system property keys as an input so our build cache key will change if we add properties but values are still ignored
+//     @Input
+//     public Iterable<String> getPropertyNames() {
+//         return systemProperties.keySet();
+//     }
+// }

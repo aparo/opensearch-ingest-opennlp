@@ -15,13 +15,13 @@
  *
  */
 
-package de.spinscale.elasticsearch.ingest.opennlp;
+package de.spinscale.opensearch.ingest.opennlp;
 
 import org.apache.logging.log4j.message.ParameterizedMessage;
 import org.apache.logging.log4j.util.Supplier;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.util.iterable.Iterables;
-import org.elasticsearch.test.ESTestCase;
+import org.opensearch.common.settings.Settings;
+import org.opensearch.common.util.iterable.Iterables;
+import org.opensearch.test.OpenSearchTestCase;
 import org.junit.After;
 import org.junit.Before;
 
@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.core.Is.is;
 
-public class OpenNlpThreadSafeTests extends ESTestCase {
+public class OpenNlpThreadSafeTests extends OpenSearchTestCase {
 
     private OpenNlpService service;
     private ExecutorService executorService;

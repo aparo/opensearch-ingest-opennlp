@@ -15,12 +15,12 @@
  *
  */
 
-package de.spinscale.elasticsearch.ingest.opennlp;
+package de.spinscale.opensearch.ingest.opennlp;
 
-import org.elasticsearch.common.Strings;
-import org.elasticsearch.ingest.AbstractProcessor;
-import org.elasticsearch.ingest.IngestDocument;
-import org.elasticsearch.ingest.Processor;
+import org.opensearch.common.Strings;
+import org.opensearch.ingest.AbstractProcessor;
+import org.opensearch.ingest.IngestDocument;
+import org.opensearch.ingest.Processor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,9 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static org.elasticsearch.ingest.ConfigurationUtils.readOptionalList;
-import static org.elasticsearch.ingest.ConfigurationUtils.readOptionalStringProperty;
-import static org.elasticsearch.ingest.ConfigurationUtils.readStringProperty;
+import static org.opensearch.ingest.ConfigurationUtils.readOptionalList;
+import static org.opensearch.ingest.ConfigurationUtils.readOptionalStringProperty;
+import static org.opensearch.ingest.ConfigurationUtils.readStringProperty;
 
 public class OpenNlpProcessor extends AbstractProcessor {
 

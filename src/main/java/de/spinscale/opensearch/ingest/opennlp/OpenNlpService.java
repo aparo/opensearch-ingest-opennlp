@@ -15,7 +15,7 @@
  *
  */
 
-package de.spinscale.elasticsearch.ingest.opennlp;
+package de.spinscale.opensearch.ingest.opennlp;
 
 import opennlp.tools.namefind.NameFinderME;
 import opennlp.tools.namefind.TokenNameFinderModel;
@@ -25,10 +25,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.ParameterizedMessage;
 import org.apache.logging.log4j.util.Supplier;
-import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.common.StopWatch;
-import org.elasticsearch.common.Strings;
-import org.elasticsearch.common.settings.Settings;
+import org.opensearch.OpenSearchException;
+import org.opensearch.common.StopWatch;
+import org.opensearch.common.Strings;
+import org.opensearch.common.settings.Settings;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,7 +90,7 @@ public class OpenNlpService {
     public ExtractedEntities find(String content, String field) {
         try {
             if (!nameFinderModels.containsKey(field)) {
-                throw new ElasticsearchException("Could not find field [{}], possible values {}", field, nameFinderModels.keySet());
+                throw new OpenSearchException("Could not find field [{}], possible values {}", field, nameFinderModels.keySet());
             }
             TokenNameFinderModel finderModel = nameFinderModels.get(field);
             if (threadLocal.get() == null || !threadLocal.get().equals(finderModel)) {
