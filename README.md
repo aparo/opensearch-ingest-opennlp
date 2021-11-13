@@ -9,7 +9,7 @@ This plugin is also intended to show you, that using gradle as a build system ma
 
 ## Installation
 
-| ES    | Command |
+| OS    | Command |
 | ----- | ------- |
 | 1.1.0  | `bin/opensearch-plugin install https://github.com/aparo/opensearch-ingest-opennlp/releases/download/1.1.0/ingest-opennlp-1.1.0.zip` |
 
