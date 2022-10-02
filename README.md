@@ -15,6 +15,11 @@ This plugin is also intended to show you, that using gradle as a build system ma
 | 1.2.0  | `bin/opensearch-plugin install https://github.com/aparo/opensearch-ingest-opennlp/releases/download/1.2.0/ingest-opennlp-1.2.0.zip` |
 | 1.2.2  | `bin/opensearch-plugin install https://github.com/aparo/opensearch-ingest-opennlp/releases/download/1.2.2/ingest-opennlp-1.2.2.zip` |
 | 1.2.3  | `bin/opensearch-plugin install https://github.com/aparo/opensearch-ingest-opennlp/releases/download/1.2.3/ingest-opennlp-1.2.3.zip` |
+| 1.2.4  | `bin/opensearch-plugin install https://github.com/aparo/opensearch-ingest-opennlp/releases/download/1.2.4/ingest-opennlp-1.2.4.zip` |
+| 1.3.0  | `bin/opensearch-plugin install https://github.com/aparo/opensearch-ingest-opennlp/releases/download/1.3.0/ingest-opennlp-1.3.0.zip` |
+| 1.3.1  | `bin/opensearch-plugin install https://github.com/aparo/opensearch-ingest-opennlp/releases/download/1.3.1/ingest-opennlp-1.3.1.zip` |
+| 1.3.2  | `bin/opensearch-plugin install https://github.com/aparo/opensearch-ingest-opennlp/releases/download/1.3.2/ingest-opennlp-1.3.2.zip` |
+| 2.0.0  | `bin/opensearch-plugin install https://github.com/aparo/opensearch-ingest-opennlp/releases/download/2.0.0/ingest-opennlp-2.0.0.zip` |
 
 **IMPORTANT**: If you are running this plugin with OpenSearch 1.1.0 or
 newer, you need to download the NER models from sourceforge after
